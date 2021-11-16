@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+
+<body>
+    <h1>Add a new course</h1>
+    <form action="courses/create" method="POST">
+        {% csrf_token %}
+        <label for="course_name">Name</label>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <input type="text" name="course_name">
+        <label for="desc">Description</label>
+        <input type="text" name="desc">
+        <input type="submit" value="Add">
+    </form>
+    <table>
+        <thead>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th>Date Added</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.name }}</td>
+                <td>{{ course.description.content }}</td>
+                <td>{{ course.created_at|date:'M d, Y P' }}</td>
+                <td>
+                    <a href="/courses/{{course.id}}/delete">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
